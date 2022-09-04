@@ -1,0 +1,2638 @@
+/* 目前考慮的是 23.6 吋的螢幕 */
+
+/* 想統一樣式定義順序 */
+/* 排列 > 尺寸 > 樣式 > 定位 > 互動 > 動畫 */
+/* 每一種要從外到內定義 Ex. bgc > color */
+/* 慢慢適應 強制做起來會很累 */
+
+/* 命名規則 */
+/* classname 用 BEM */
+/* idname 用 小駝峰式命名 */
+/* 小指的是首字小寫 駝峰指的是後面的各字串首字大寫 */
+/* 不應該使用 hyphen */
+
+/* 原網址 breakpoint 寫 960px 我要寫 992px */
+
+/* 國良導師也覺得 @media 分散來寫更好維護 */
+
+/* 原網址好像順序寫反了 */
+/* 根據 MDN @charset 在前而 @import 在後 */
+/* https://developer.mozilla.org/en-US/docs/Web/CSS/@charset */
+/* https://developer.mozilla.org/en-US/docs/Web/CSS/@import */
+
+/* 悲劇... */
+/* 原網址在 2022/05/02 16:45 改版了 */
+/* 後面用通靈方式做 */
+/* 所幸沒有刪除原 youtube 影片網址 */
+
+
+
+@charset "UTF-8";
+@import url("https://fonts.googleapis.com/css2?family=Heebo&display=swap");
+
+
+
+/* ============================================================= */
+
+/* Ref: https://css-tricks.com/box-sizing/ */
+/* support old versions of web browsers */
+
+
+
+html {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+*, *:before, *:after {
+    -webkit-box-sizing: inherit;
+    -moz-box-sizing: inherit;
+    box-sizing: inherit;
+}
+
+
+/* ============================================================= */
+
+
+
+/* ============================================================= */
+
+/* Self-defined Variable Values */
+
+
+
+:root {
+    --main-color: #b7282e;
+    --main-rouge-color: #bd2a33;
+    --main-light-color: #e93737;
+    --sub-color: #fcf5e3;
+    --c-black: #000;
+    --c-dark: #1a1a1a;
+    --c-dim: #333;
+    --c-white: #fff;
+    --c-light: #f6f6f6;
+    --c-light-a50: #f6f6f688;
+    --c-light-dim: #d6d6d6;
+    --ff: "游ゴシック Medium", "Yu Gothic Medium", "游ゴシック体", "YuGothic", sans-serif;
+}
+
+
+
+/* ============================================================= */
+
+
+
+/* * {
+    outline: 1px solid blue;
+} */
+
+/* 這邊沿用日本網站的神奇設定 */
+/* html 62.5% body 1.6rem */
+html {
+    font-size: 62.5%;
+}
+
+body {
+    font-size: 1.6rem;
+    font-family: var(--ff);
+    /* 會影響字距 特別影響片假名的寬度計算 */
+    /* Ref: https://ics.media/entry/14087/ */
+    font-feature-settings: "palt";
+    /* position: relative; */
+}
+
+a {
+    text-decoration: none;
+}
+
+img {
+    vertical-align: bottom;
+}
+
+/* ========================== Module ========================== */
+
+
+
+.container {
+    width: 100%;
+    max-width: 1140px;
+    margin: auto;
+}
+
+.container-fluid {
+    width: 100%;
+}
+
+
+/* 製作的時候想得不夠好 整個包起來定位更好 */
+/* 重新改過定位 */
+.hover-slide-area {
+    width: 40px;
+    overflow: hidden;
+    position: absolute;
+    right: 0;
+    top: 5px;
+}
+
+.hover-slide-area.inner {
+    top: 43px;
+    right: 8%;
+}
+
+.hover-slide-area.img-decor {
+    top: calc(100% - 102px);
+    /* 不知道怎麼消除原本的 top */
+    /* 跟父層圖片寬度和要是 100vw  */
+    /* 然後扣掉 17px scroll-bar */
+    /* 加白邊的話是 20px */
+    /* right: calc(10vw - 17px); */
+    /* 手機沒有 scroll-bar 還是會出問題的 */
+    /* 自定義 clientWidth 的 vw 也很難用 */
+    /* 因為 chrome 常常改 */
+    right: 0;
+}
+
+.hover-slide-area.cooperator-decor.cooperator-hover-sm {
+    top: 200px;
+}
+
+.hover-slide1,
+.hover-slide2 {
+    position: relative;
+}
+
+.hover-slide1 {
+    height: 22px;
+    /* 測試一下這個 linear-gradient() 可不可以超過自身大小 */
+    /* 好像不行 不如讓偽元素長高嗎 */
+    transition: .4s;
+    /* background-color: #ccc; */
+}
+.hover-slide2 {
+    background-color: var(--main-light-color);
+    height: 80px;
+}
+
+@media screen and (min-width: 992px) {
+    .hover-slide-area {
+        width: 100px;
+        overflow: hidden;
+        position: absolute;
+        right: 100px;
+        top: 8px;
+    }
+
+    .hover-slide1 {
+        height: 46px;
+    }
+    
+    .hover-slide2 {
+        height: 180px;
+    }
+}
+
+@media screen and (min-width: 992px) {
+    .hover-slide-area.img-decor {
+        width: 40px;
+    }
+
+    .hover-slide-area.img-decor > .hover-slide1 {
+        height: 22px;
+    }
+    
+    .hover-slide-area.img-decor > .hover-slide2 {
+        height: 80px;
+    }
+}
+
+@media screen and (min-width: 992px) {
+    .hover-slide-area.cooperator-decor {
+        width: 56px;
+    }
+
+    .hover-slide-area.cooperator-decor > .hover-slide1 {
+        height: 28px;
+    }
+    
+    .hover-slide-area.cooperator-decor > .hover-slide2 {
+        height: 104px;
+    }
+}
+
+/* 寫很亂但可以動了 */
+.hover-slide1::before {
+    content: '';
+    width: 100%;
+    height: 0px;
+    background-color: var(--main-light-color);
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    transition: .4s;
+} 
+
+.hover-slide1::after, 
+.hover-slide2::after {
+    content: '';
+    width: 200px;
+    height: 1px;
+    position: absolute;
+    /* 從最右邊開始旋轉會比較好定位 */
+    transform-origin: 100% 0;
+    transition: .2s;
+}
+
+.hover-slide1::after {
+    background-color: var(--c-white);
+    right: 0px;
+    bottom: -1px;
+    transform: rotate(45deg);
+    /* 這樣會比較好看 */
+    /* 放大到 400% 就懂了 */
+    z-index: 1;
+}
+
+.hover-slide-area.img-decor > .hover-slide1::after {
+    background-color: var(--c-black);
+}
+
+.hover-slide2::after {
+    background-color: var(--c-black);
+    top: 0px;
+    right: 0px;
+    transform: rotate(-45deg);
+}
+
+
+
+/* ========================== Layout ========================== */
+
+
+
+.d-flex {
+    display: flex;
+}
+
+.flex-direction-column {
+    flex-direction: column;
+}
+
+.justify-content-center {
+    justify-content: center;
+}
+
+.justify-content-between {
+    justify-content: space-between;
+}
+
+.align-items-center {
+    align-items: center;
+}
+
+.px-5-3 {
+    padding-right: 5px;
+    padding-left: 3px;
+}
+
+.py-3-2 {
+    padding-top: 3px;
+    padding-bottom: 2px;
+}
+
+.py-4-3 {
+    padding-top: 4px;
+    padding-bottom: 3px;
+}
+
+.pt-5 {
+    padding-top: 5px;
+}
+
+.pt-20 {
+    padding-top: 20px;
+}
+
+.pt-25 {
+    padding-top: 25px;
+}
+
+.pt-35 {
+    padding-top: 35px;
+}
+
+.pt-50 {
+    padding-top: 50px;
+}
+
+.pt-55 {
+    padding-top: 55px;
+}
+
+.pb-5 {
+    padding-bottom: 5px;
+}
+
+.pb-55 {
+    padding-bottom: 55px;
+}
+
+.pb-75 {
+    padding-bottom: 75px;
+}
+
+.pl-2 {
+    padding-left: 2px;
+}
+
+.pl-20 {
+    padding-left: 20px;
+}
+
+.pl-25 {
+    padding-left: 25px;
+}
+
+.pl-50 {
+    padding-left: 50px;
+}
+
+.pl-100 {
+    padding-left: 100px;
+}
+
+.mb-2 {
+    margin-bottom: 2px;
+}
+
+.mb-4 {
+    margin-bottom: 4px;
+}
+
+.mb-7 {
+    margin-bottom: 7px;
+}
+
+.mb-8 {
+    margin-bottom: 8px;
+}
+
+.mb-10 {
+    margin-bottom: 10px;
+}
+
+.mb-15 {
+    margin-bottom: 15px;
+}
+
+.mb-20 {
+    margin-bottom: 20px;
+}
+
+.mb-22 {
+    margin-bottom: 22px;
+}
+
+.mb-25 {
+    margin-bottom: 25px;
+}
+
+.mb-30 {
+    margin-bottom: 30px;
+}
+
+.mb-35 {
+    margin-bottom: 35px;
+}
+
+.mb-40 {
+    margin-bottom: 40px;
+}
+
+.mb-50 {
+    margin-bottom: 50px;
+}
+
+.mb-90 {
+    margin-bottom: 90px;
+}
+
+.bg-b-l {
+    color: var(--c-white);
+    background-color: var(--c-black);
+    width: 80vw;
+    max-width: 500px;
+}
+
+.bg-b-m {
+    color: var(--c-white);
+    background-color: var(--c-black);
+    width: 58vw;
+    max-width: 350px;
+}
+
+.bg-t-m {
+    width: 58vw;
+    max-width: 350px;
+}
+
+.bg-b-fit {
+    color: var(--c-white);
+    background-color: var(--c-black);
+    width: fit-content;
+}
+
+.bg-m-fit {
+    background-color: var(--main-color);
+    width: fit-content;
+}
+
+.title-s {
+    font-size: 2.4rem;
+}
+
+.title-l {
+    font-size: 2.4rem;
+}
+
+.italic {
+    font-style: italic;
+}
+
+.fw-light {
+    font-weight: 500;
+}
+
+.fw-bold {
+    font-weight: 900;
+}
+
+.fz-sm {
+    font-size: 10px;
+}
+
+
+
+/* ========================== Section ========================== */
+
+
+
+/* header */
+
+/* header {
+
+} */
+
+/* 目前我用添加 .is-active 的方法來控制 */
+/* 但是拔掉 class 的時候會瞬間彈回原位 */
+/* 如果寫成 animation 要用到兩個 animation name */
+/* 應該有更聰明的寫法 所以我這裡先不拘泥 */
+header > #navFullPage {
+    width: 100%;
+    height: calc(var(--vh) * 100);
+    background-color: var(--main-light-color);
+    font-weight: 900;
+    /* 有趣的寫法 註記就好 */
+    /* font-size: calc(100vw / 75); */
+    font-size: 14px;
+    position: fixed;
+    opacity: 0;
+    z-index: -1000;
+    transition: .4s;
+}
+
+@media screen and (min-width: 992px) {
+    header > #navFullPage {
+        font-size: 2rem;
+    }
+    .nav-title__introduction {
+        margin-bottom: 10px;
+    }
+}
+
+header > #navFullPage.is-active {
+    opacity: 1;
+    z-index: 1080;
+}
+
+/* 不要過度模組化 這種單獨用到的區塊單獨設定 */
+header > #navFullPage nav {
+    line-height: 1.5;
+    letter-spacing: .125rem;
+    padding-top: 25vw;
+}
+
+@media screen and (min-width: 992px) {
+    header > #navFullPage nav {
+        padding-top: 180px;
+    }
+}
+
+header > #navFullPage nav a {
+    color: var(--c-white);
+}
+
+header > #navFullPage nav a:hover {
+    text-decoration: underline;
+}
+
+.nav-line {
+    position: relative;
+}
+
+.nav-line::before {
+    content: '';
+    width: 8vw;
+    /* 這個 1px 糊糊的 QQ */
+    /* 糊糊的是 transform 導致的 */
+    /* 即使只是位移都有可能會導致問題 */
+    height: 1px;
+    background-color: var(--c-white);
+    position: absolute;
+    top: 11px;
+    left: -10vw;
+    /* transform: translate(-10vw, -50%); */
+}
+
+.nav-title .nav-line::before {
+    top: 9px;
+}
+
+@media screen and (min-width: 992px) {
+    .nav-line::before {
+        width: 60px;
+        top: 17px;
+        left: -80px;
+        /* transform: translate(-80px, -50%); */
+    }
+    .nav-title .nav-line::before {
+        top: 14px;
+    }
+}
+
+.nav-title {
+    padding-left: 10vw;
+    margin-bottom: 20px;
+}
+
+@media screen and (min-width: 992px) {
+    .nav-title {
+        padding-left: 8vw;
+        margin-bottom: 40px;
+    }
+}
+
+@media screen and (min-width: 1200px) {
+    .nav-title {
+        padding-left: 90px;
+    }
+}
+
+.nav-title__brand {
+    font-size: 2rem;
+    line-height: 1.5;
+}
+
+@media screen and (min-width: 992px) {
+    .nav-title__brand {
+        font-size: 3rem;
+    }
+}
+
+.nav-menu {
+    padding-left: 20vw;
+}
+
+@media screen and (min-width: 992px) {
+    .nav-menu {
+        padding-left: 16vw;
+    }
+}
+
+@media screen and (min-width: 1200px) {
+    .nav-menu {
+        padding-left: 180px;
+    }
+}
+
+.nav-menu > ul > li {
+    font-size: 1.6rem;
+}
+
+@media screen and (min-width: 992px) {
+    .nav-menu > ul > li {
+        font-size: 2.4rem;
+    }
+}
+
+.nav-menu > ul > li > ul > li {
+    font-size: 10px;
+    font-weight: 500;
+    text-decoration: underline;
+}
+
+.nav-menu .li-row {
+    display: inline-block;
+}
+
+.nav-menu .li-row + .li-row {
+    padding-left: 10px;
+}
+
+@media screen and (min-width: 992px) {
+    .nav-menu .li-col:first-child {
+        padding-top: 30px;
+    }
+}
+
+@media screen and (min-width: 992px) {
+    .nav-menu .li-row,
+    .nav-menu .li-col {
+        font-size: 14px;
+    }
+}
+
+
+
+.header__trigger {
+    width: 60px;
+    height: 60px;
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: 1100;
+    cursor: pointer;
+    background-color: var(--c-light);
+}
+
+@media screen and (min-width: 992px) {
+    .header__trigger {
+        width: 100px;
+        height: 100px;
+        background-color: transparent;
+    }
+}
+
+.header__trigger.is-active {
+    /* 原網址寫成 none */
+    background-color: transparent;
+    /* border-left: transparent; */
+    transition: background-color 0s;
+}
+
+.header__trigger > span {
+    font-size: 0;
+}
+
+.header__trigger > .header__trigger-line1,
+.header__trigger > .header__trigger-line2 {
+    display: block;
+    width: 30px;
+    height: 1px;
+    background-color: var(--c-dark);
+    transition: .4s;
+}
+
+@media screen and (min-width: 992px) {
+    .header__trigger > .header__trigger-line1,
+    .header__trigger > .header__trigger-line2 {
+        width: 60px;
+        height: 2px;
+    }
+}
+
+.header__trigger.is-active > .header__trigger-line1,
+.header__trigger.is-active > .header__trigger-line2 {
+    background-color: var(--c-white);
+}
+
+@media screen and (min-width: 992px) {
+    .header__trigger.is-active > .header__trigger-line1,
+    .header__trigger.is-active > .header__trigger-line2 {
+        width: 50px;
+    }
+}
+
+.header__trigger > .header__trigger-line1 {
+    transform: translate(0, -4px);
+}
+
+@media screen and (min-width: 992px) {
+    .header__trigger > .header__trigger-line1 {
+        transform: translate(0, -8px);
+    }
+
+    .header__trigger > .header__trigger-line2 {
+        transform: translate(0, 8px);
+    }
+}
+
+.header__trigger.is-active > .header__trigger-line1 {
+    transform: translate(0, 0) rotate(45deg);
+}
+
+@media screen and (min-width: 992px) {
+    .header__trigger.is-active > .header__trigger-line1 {
+        transform: translate(0, 2px) rotate(45deg);
+    }
+}
+
+.header__trigger.is-active > .header__trigger-line2 {
+    transform: rotate(-225deg);
+}
+
+.header__trigger > .header__trigger-line2 {
+    transform: translate(0, 4px);
+}
+
+.header > .container > nav {
+    background-color: var(--main-light-color);
+}
+
+.header__slogan {
+    display: none;
+    width: 100px;
+    height: calc(var(--vh) * 100);
+    background-color: var(--c-light);
+    border-left: 1px solid var(--c-light-dim);
+    writing-mode: vertical-lr;
+    font-size: 14px;
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: 5;
+}
+
+@media screen and (min-width: 992px) {
+    .header__slogan {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: calc(var(--vh) * 100);
+    }
+}
+
+.header__slogan-text {
+    font-feature-settings: 'pkna';
+}
+
+/* 這個網站在 desktop 的時候 */
+/* 故意調整 viewport 的高度 側邊 header 會被玩壞 */
+/* 我只能大概修一下 因為我不知道限制最小瀏覽器視窗高度的方法 */
+/* 應該說我不知道有沒有人這樣做 */
+.header__scroll-btn-wrap {
+    display: none;
+    width: 100px;
+    /* 15 倍的長度看起來比較舒服 */
+    height: calc(var(--vh) * 15);
+    max-height: 120px;
+    /* border-left: 1px solid var(--c-light-dim); */
+    /* background-color: var(--c-light); */
+    overflow: hidden;
+    font-size: 0;
+    position: fixed;
+    right: 0;
+    bottom: 20px;
+    z-index: 1060;
+}
+
+@media screen and (min-width: 992px) {
+    .header__scroll-btn-wrap {
+        display: block;
+    }
+}
+
+.header__scroll-btn-wrap .header__scroll-btn-line1,
+.header__scroll-btn-wrap .header__scroll-btn-line2 {
+    width: 1px;
+    height: 300%;
+    background-image: 
+    linear-gradient(var(--c-dark) 0%, var(--c-dark) 33.33%,
+    var(--main-light-color) 33.33%, var(--main-light-color) 66.67%,
+    var(--c-dark) 66.67%, var(--c-dark) 100%);
+    position: absolute;
+    top: 0;
+    cursor: pointer;
+    transition: .4s;
+}
+
+.header__scroll-btn-wrap > .header__scroll-btn-line1 {
+    animation: scroll-btn-down 2s ease-in-out infinite;
+}
+.header__scroll-btn-wrap > .header__scroll-btn-line2 {
+    animation: scroll-btn-up 2s ease-in-out infinite;
+}
+
+@keyframes scroll-btn-up {
+    0% {
+        top: 0;
+    }
+    100% {
+        top: -200%;
+    }
+}
+
+@keyframes scroll-btn-down {
+    0% {
+        top: -200%;
+    }
+    100% {
+        top: 0;
+    }
+}
+
+.header__scroll-btn-wrap .header__scroll-btn-line1 {
+    left: 50px;
+}
+
+.header__scroll-btn-wrap .header__scroll-btn-line2 {
+    left: -50px;
+}
+/* 當瀏覽器高度不為 0 時換成左邊這條 */
+/* 畢竟是動態效果 後面再回來改 */
+
+.header__scroll-btn-wrap.is-active .header__scroll-btn-line1 {
+    left: 150px;
+}
+.header__scroll-btn-wrap.is-active .header__scroll-btn-line2 {
+    left: 50px;
+}
+
+
+
+/* mv */
+
+.mv {
+    /* 國良導師的講法是 */
+    /* 越是容器的東西越不要設定尺寸 自由內容去撐開 */
+    /* 因為看到原網址常用 min- 前綴設定尺寸 */
+    /* 大區塊的尺寸想這樣設定看看效果如何 */
+    min-width: 100%;
+    overflow: hidden;
+    /* 讓 mv 三兄弟對在裡面再切掉 */
+    position: relative;
+}
+
+.mv-wrap {
+    min-width: 100%;
+    /* 如果是用 vw 來設定高度沒有關係 */
+    height: 133vw;
+    /* 自己抓的尺寸 */
+    max-height: calc(var(--vh) * 100 - 40px);
+}
+
+.mv__logo, .mv__video, .mv__bg {
+    position: absolute;
+}
+
+/* 定位稍微偏上會讓下面的影片把視覺重心往下帶 */
+.mv__logo {
+    /* 原網址用 43vw */
+    width: 43%;
+    max-width: 340px;
+    /* 這 mb 屬於不屬於模組化而屬於 RWD 不要用 mb-30 */
+    /* 不懂原本為什麼要設定 */
+    /* margin-bottom: 30px; */
+    /* 原網址的設定 */
+    /* top: 50%; */
+    top: 47%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+}
+
+/* @media print, screen and (min-width: 992px) {
+    .mv__logo {
+        不懂原本為什麼要設定
+        margin-bottom: 27px;
+    }
+} */
+
+/* 目前影片應該是玩不壞了 定位真的難 */
+/* 盡量配合畫面了 但一定會有定位不好的片段 */
+/* 要定位更靈活 就必須放大影片損失畫質 */
+/* 讀取的圓圈還是會跑出來 有空再處理 */
+/* 大專剩 80 幾天 其實很有壓力了 */
+.mv__video {
+    min-width: 100%;
+    height: 100%;
+    /* 用 min-height 防止壓縮 */
+    min-height: 800px;
+    top: 0;
+    z-index: 2;
+    position: relative;
+}
+
+/* 針對 375px 這種極小尺寸多做一次處理 */
+.mv__video-embed {
+    width: calc(133vw * 1.79);
+    height: 133%;
+    /* 用 min-width 防止壓縮 */
+    min-width: 1100px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    /* 375px 真的很窄 定位要不一樣一開始進版才會好看 */
+    transform: translate(-45%, -61%);
+    /* 目前沒有細讀 Youtube API 手機版要自己點影片 */
+    /* 所以我註解掉沒有用 */
+    /* pointer-events: none; */
+}
+
+/* 定位要不一樣一開始進版才會好看 */
+@media print, screen and (min-width: 500px) {
+    .mv__video-embed {
+        min-width: 1800px;
+        transform: translate(-45%, -50%);
+    }
+}
+
+/* 定位要不一樣一開始進版才會好看 */
+@media print, screen and (min-width: 992px) {
+    .mv__video-embed {
+        transform: translate(-50%, -50%);
+
+    }
+}
+
+.mv__bg {
+    /* 這邊 top: 50% 蓋掉上面的 top: 0 */
+    /* 縮放的時候會比較好看 */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+}
+
+
+
+/* news */
+
+.mv-news {
+    width: 100%;
+    height: 25vw;
+    min-height: 160px;
+    background-color: var(--sub-color);
+    font-size: 10px;
+    position: relative;
+    z-index: 4;
+}
+
+@media print, screen and (min-width: 992px) {
+    .mv-news {
+        height: 150px;
+    }
+}
+
+.mv-news__area-heading,
+.mv-news__area-content {
+    height: 70px;
+    background-color: var(--c-white);
+    line-height: 70px;
+    letter-spacing: .125rem;
+    position: absolute;
+    top: calc(8vw - 20px);
+}
+
+@media print, screen and (min-width: 992px) {
+    .mv-news__area-heading,
+    .mv-news__area-content {
+    height: 120px;
+    font-size: 1.5rem;
+    line-height: 120px;
+    top: -60px;
+    }
+}
+
+.mv-news__area-heading {
+    display: none;
+    width: 140px;
+    left: calc(20% - 140px);
+}
+
+@media print, screen and (min-width: 992px) {
+    .mv-news__area-heading {
+        display: flex;
+        left: calc(40% - 140px);
+        
+    }
+}
+
+.mv-news__area-content {
+    display: block;
+    width: 80%;
+    min-width: 360px;
+    right: 0;
+    padding-left: 25px;
+}
+
+@media print, screen and (min-width: 992px) {
+    .mv-news__area-content {
+        width: 60%;
+        padding-left: 0;
+    }
+}
+
+.mv-news__area-content > a {
+    color: var(--c-black);
+}
+
+
+
+/* about */
+
+.about {
+    background-color: var(--main-color);
+    font-weight: 900;
+    letter-spacing: .125rem;
+}
+
+@media print, screen and (min-width: 992px) {
+    .about {
+        margin-bottom: 55px;
+    }
+}
+
+/* 原網址在窄寬度下連這個 hover event 都沒有 */
+/* 感覺不用寫成那樣 */
+.about:hover .hover-slide1::before {
+    height: 22px;
+}
+
+@media print, screen and (min-width: 992px) {
+    .about:hover .hover-slide1::before {
+        height: 46px;
+    }
+}
+
+.about:hover .hover-slide2::after {
+    background-color: var(--c-white);
+}
+
+.about-wrap {
+    height: 427px;
+    position: relative;
+    padding-top: 25px;
+    padding-left: calc(5vw + 9px);
+}
+
+.about-wrap h2 {
+    color: var(--c-white);
+    position: relative;
+    z-index: 1;
+}
+
+.about-wrap h2 span {
+    display: block;
+}
+
+@media print, screen and (min-width: 992px) {
+    /* 這邊開始覺得這些字距定位很雜 */
+    /* 如果要聰明就是把間距都設成 rem */
+    /* 每更動一次大小就去改掉 html 的字體大小 */
+    /* 雖然世界可能不會那麼美好就是了 */
+    /* 我現在沒辦法設計到那麼具體 */
+    .about-wrap {
+        height: 558px;
+        padding-top: 73px;
+        padding-left: calc(40vw - 350px);
+    }
+    
+    .about-wrap .title-l {
+        max-width: 420px;
+        font-size: 4.8rem;
+        letter-spacing: .5rem;
+    }
+    .about-wrap .title-l:nth-child(3) {
+        margin-bottom: 22px;
+    }
+
+    .about-wrap .title-l:nth-child(-n+2) {
+        background-color: var(--main-color);
+        margin-bottom: 18px;
+    }
+
+    .about-wrap .fz-sm {
+        max-width: 420px;
+        font-size: 1.5rem;
+        margin-bottom: 2px;
+    }
+
+    .about-wrap .fz-sm:last-child {
+        max-width: fit-content;
+    }
+}
+
+.about-wrap > .about__guide-btn {
+    height: fit-content;
+    color: var(--c-white);
+    background-color: var(--main-light-color);
+    font-size: 14px;
+    position: absolute;
+    bottom: 217px;
+    z-index: 1;
+}
+
+@media print, screen and (min-width: 992px) {
+    .about-wrap > .about__guide-btn {
+        max-width: 420px;
+        font-size: 2rem;
+        top: 343px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+}
+
+.about__guide-btn > .about__guide-btn__line-wrap {
+    width: 50%;
+    overflow: hidden;
+    position: relative;
+}
+
+.about__guide-btn .about__guide-btn__line {
+    display: block;
+    width: 300%;
+    height: 1px;
+    background: linear-gradient(90deg, var(--c-light-a50) 0%, var(--c-light-a50) 33.33%, var(--c-light) 33.33%, var(--c-light) 66.67%, var(--c-light-a50) 66.67%, var(--c-light-a50) 100%);
+    position: absolute;
+    right: 0;
+    top: 7px;
+    animation: guide-btn 2s ease-in-out infinite;
+}
+
+@keyframes guide-btn {
+    0% {
+        right: 0;
+    }
+    100% {
+        right: -200%;
+    }
+}
+
+@media print, screen and (min-width: 992px) {
+    .about__guide-btn > .about__guide-btn__line-wrap {
+        width: 260px;
+    }
+    .about__guide-btn .about__guide-btn__line {
+        top: 44%;
+    }
+}
+
+.about-wrap .about__img-wrap {
+    width: 100%;
+    height: 225px;
+    position: absolute;
+    left: 50%;
+    bottom: 2px;
+    overflow: hidden;
+    transform: translateX(-50%);
+    z-index: 0;
+}
+
+@media print, screen and (min-width: 992px) {
+    .about-wrap .about__img-wrap {
+        height: 550px;
+        left: 50%;
+        top: 8px;
+        transform: translateX(-50%);
+    }
+}
+
+.about-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    animation: about-img 5s linear infinite;
+}
+
+/* 這裡動畫是輪播 我先寫成定時放大 */
+@keyframes about-img {
+    0% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(1.1);
+    }
+}
+
+
+
+/* content */
+
+.content {
+    color: var(--c-white);
+}
+
+.content .container-fluid {
+    position: relative;
+}
+
+/* 這邊用用看繼承 畢竟這種做法比較直觀吧 */
+/* 前面就不改了 想拚拚看第二份作業 */
+/* 不行不行 忙大專 */
+.content a {
+    color: inherit;
+}
+
+.content h2 span {
+    display: block;
+}
+
+.content__top {
+    padding-top: 37px;
+    height: 280px;
+    background-color: var(--main-color);
+    padding-left: calc(5vw + 9px);
+    position: relative;
+}
+
+/* 因為網頁改版失去了參考的對象 */
+/* 先偷懶地使用大量斷點應付 */
+
+@media print, screen and (min-width: 992px) {
+    .content__top {
+        width: 70%;
+        height: 580px;
+    }
+}
+
+@media print, screen and (min-width: 1280px) {
+    .content__top {
+        height: 680px;
+        padding-left: calc(35vw - 340px);
+    }
+}
+
+@media print, screen and (min-width: 1440px) {
+    .content__top {
+        height: 780px;
+        padding-left: calc(40vw - 350px);
+    }
+}
+
+.content__top > h2 > .title-l {
+    letter-spacing: .375rem;
+}
+
+.content__top > h2:not(.title-l) {
+    letter-spacing: .075em;
+}
+
+.content__top > p {
+    position: relative;
+    letter-spacing: .125em;
+}
+
+.content__top > p:hover {
+    text-decoration: underline;
+}
+
+.content__top > p::before {
+    content: '';
+    width: 20px;
+    height: 1px;
+    background-color: var(--c-white);
+    position: absolute;
+    left: 0px;
+    top: 5px;
+}
+
+@media print, screen and (min-width: 992px) {
+    .content__top {
+        padding-top: 75px;
+    }
+    
+    .content__top > h2 > .title-l {
+        width: 30vw;
+        font-size: 3.6rem;
+        margin-bottom: 12px;
+    }
+
+    .content__top > h2 > .title-l:nth-child(2) {
+        margin-bottom: 26px;
+    }
+
+    .content__top > h2 > span:not(.title-l) {
+        font-size: 1.5rem;
+    }
+
+    .content__top > h2 > span:nth-child(3) {
+        margin-bottom: 12px;
+    }
+
+    .content__top > h2 > span:last-child {
+        margin-bottom: 36px;
+    }
+
+    .content__top > p {
+        font-size: 12px;
+    }
+}
+
+@media screen and (min-width: 992px) {
+    .hover-slide-area.img-decor {
+        top: calc(100% - 132px);
+        width: 56px;
+    }
+
+    .hover-slide-area.img-decor > .hover-slide1 {
+        height: 28px;
+    }
+    
+    .hover-slide-area.img-decor > .hover-slide2 {
+        height: 104px;
+    }
+}
+
+.content__top:hover .hover-slide1::before {
+    height: 22px;
+}
+
+@media print, screen and (min-width: 992px) {
+    .content__top:hover .hover-slide1::before {
+        height: 46px;
+    }
+}
+
+.content__top:hover .hover-slide2::after {
+    background-color: var(--c-white);
+}
+
+.content__card-wrap {
+    width: 100%;
+    /* 這邊用 relative 保留 box-model */
+    position: relative;
+    top: -60px;
+}
+
+.content__card-wrap span {
+    display: block;
+}
+
+.content__card {
+    width: 92%;
+    position: relative;
+    /* 怕文字掉出去 保護一下 */
+    overflow: hidden;
+}
+
+.content__card h3 {
+    position: absolute;
+    top: 25px;
+    left: calc(5vw + 9px);
+    z-index: 1;
+}
+
+.content__card h3 > span:not(.title-s) {
+    line-height: 1.15;
+    letter-spacing: .125rem;
+}
+
+    .content__card .title-s {
+    font-size: 2rem;
+    letter-spacing: .25rem;
+}
+
+.content__card-img-wrap {
+    width: 100%;
+    overflow: hidden;
+}
+
+.content__card-img--sp {
+    /* 我不會吃到 scroll-bar 的寬度 */
+    width: 100%;
+    transition: .4s;
+}
+
+.content__card:nth-child(n):hover .content__card-img--sp {
+    transform: scale(1.1);
+}
+
+.content__card:nth-child(n):hover .hover-slide1::before {
+    height: 22px;
+}
+
+@media print, screen and (min-width: 992px) {
+    .content__card:nth-child(n):hover .hover-slide1::before {
+        height: 46px;
+    }
+}
+
+.content__card:nth-child(n):hover .hover-slide1::after,
+.content__card:nth-child(n):hover .hover-slide2::after {
+    background-color: var(--c-white);
+}
+
+/* 因為網頁改版失去了參考的對象 */
+/* 先偷懶地使用大量斷點應付 */
+
+@media print, screen and (min-width: 992px) {
+    .content {
+        margin-bottom: 205px;
+    }
+
+    .hover-slide-area.inner {
+        top: 57px;
+        /* 土法煉鋼估出來 */
+        right: calc(29% + 10px);
+    }
+
+    .content__card {
+        position: absolute;
+    }
+
+    .content__card-wrap {
+        top: -614px;
+    }
+    
+    .content__card:first-child {
+        width: 380px;
+        right: calc(50% - 378px);
+    }
+    
+    .content__card:nth-child(2) {
+        width: 385px;
+        top: 329px;
+        right: calc(50% - 81px);
+    }
+    
+    .content__card:last-child {
+        width: 285px;
+        top: 329px;
+        right: calc(50% - 378px);
+    }
+
+    .content__card h3 .title-s {
+        height: max-content;
+        font-size: 3rem;
+        writing-mode: vertical-rl;
+        position: absolute;
+        left: 30px;
+        padding-top: 4px;
+        padding-right: 8px;
+        padding-bottom: 4px;
+    }
+
+    .content__card h3 span:not(.title-s) {
+        font-size: 1.5rem;
+        /* 影響直立時的片假名對齊位置 */
+        font-feature-settings: 'pkna';
+        writing-mode: vertical-rl;
+        position: absolute;
+        /* 這個垂直文字的黑底超級搞... */
+        /* 我知道原網址用了兩層 span */
+        /* 但我想試試看只用一層 */
+        /* 認輸 改結構 */
+        line-height: 1.75;
+    }
+
+    .content__card h3 span:nth-of-type(2) {
+        height: max-content;
+        left: -12px;
+
+    }
+    .content__card h3 span:nth-of-type(3) {
+        height: max-content;
+        left: -40px;
+    }
+
+    /* .content__card h3 span:not(.title-s)::first-line {
+        color: #fcc;
+        letter-spacing: 1rem;
+        background: #333;
+    } */
+}
+
+@media print, screen and (min-width: 1140px) {
+    .content {
+        margin-bottom: 335px;
+    }
+
+    .hover-slide-area.inner {
+        top: 115px;
+    }
+    
+    .content__card:first-child {
+        width: 450px;
+        right: calc(50% - 450px);
+    }
+    
+    .content__card:nth-child(2) {
+        width: 455px;
+        top: 387px;
+        right: calc(50% - 100px);
+    }
+    
+    .content__card:last-child {
+        width: 338px;
+        top: 387px;
+        right: calc(50% - 450px);
+    }
+}
+
+@media print, screen and (min-width: 1280px) {
+    .content {
+        margin-bottom: 365px;
+    }
+
+    .hover-slide-area.inner {
+        top: 173px;
+    }
+
+    .content__card-wrap {
+        top: -714px;
+    }
+
+    .content__card:first-child {
+        width: 520px;
+        right: calc(50% - 520px);
+    }
+    
+    .content__card:nth-child(2) {
+        width: 525px;
+        top: 447px;
+        right: calc(50% - 116px);
+    }
+    
+    .content__card:last-child {
+        width: 390px;
+        top: 447px;
+        right: calc(50% - 520px);
+    }
+}
+
+@media print, screen and (min-width: 1440px) {
+    .content {
+        margin-bottom: 425px;
+    }
+
+    .hover-slide-area.inner {
+        right: calc(29% + 69px);
+        top: 239px;
+    }
+
+    .content__card-wrap {
+        top: -814px;
+    }
+
+    .content__card:first-child {
+        width: 600px;
+        right: calc(50% - 548px);
+    }
+    
+    .content__card:nth-child(2) {
+        width: 610px;
+        top: 522px;
+        right: calc(50% - 76px);
+    }
+    
+    .content__card:last-child {
+        width: 450px;
+        top: 522px;
+        right: calc(50% - 548px);
+    }
+}
+
+
+
+/* 在 2022/05/02 18:00 改回舊版 */
+/* 前面的就不改了 繼續寫下去 */
+/* 真的有空再回來處理 */
+
+/* cooperator */
+
+.cooperator {
+    width: 100%;
+    position: relative;
+    margin-bottom: 80px;
+}
+
+@media print, screen and (min-width: 992px) {
+    .cooperator {
+        margin-bottom: 170px;
+    }
+}
+
+.cooperator__bg {
+    width: 100%;
+    overflow: hidden;
+    margin-bottom: calc(-71vw + 140px);
+}
+
+.cooperator__bg-img--sp {
+    width: 100%;
+}
+
+@media print, screen and (min-width: 992px) {
+    .cooperator__bg {
+        height: 630px;
+        background: url(../img/top_column_bg.png) repeat-x 50% 50%;
+        margin-bottom: 0;
+    }
+
+    .cooperator__bg-img--sp {
+        display: none;
+    }
+}
+
+.cooperator__introduction-heading {
+    display: flex;
+    position: absolute;
+    top: 100px;
+    right: 50%;
+    z-index: 1;
+    transform: translateX(60%);
+}
+
+@media print, screen and (min-width: 992px) {
+    .cooperator__introduction-heading {
+        top: 104px;
+        right: calc(45vw - 222px) ;
+        /* right: calc(29vw - 78px) ; */
+    }
+}
+
+.cooperator__introduction-heading-img {
+    width: 100px;
+}
+
+.cooperator__introduction-heading-text {
+    color: var(--c-white);
+    writing-mode: vertical-rl;
+    letter-spacing: .175rem;
+    line-height: 1.75;
+}
+
+@media print, screen and (min-width: 992px) {
+    .cooperator__introduction-heading-img {
+        width: 134px;
+    }
+
+    .cooperator__introduction-heading-text span {
+        display: inline-block !important;
+        font-feature-settings: 'pkna';
+        font-size: 1.4rem;
+        line-height: 1;
+        margin-left: 12px;
+        letter-spacing: .25rem;
+    }
+
+    .cooperator__introduction-heading-text span + span {
+        margin-top: -6px;
+    }
+}
+
+.cooperator__introduction-heading-text span {
+    display: block;
+    height: max-content;
+}
+
+.cooperator__introduction-heading-text span:last-of-type {
+    margin-left: 4px;
+}
+
+.cooperator__hover-area > .cooperator-hover-lg {
+    display: none;
+}
+
+@media print, screen and (min-width: 992px) {
+    .cooperator__hover-area > .cooperator-hover-sm {
+        display: none;
+    }
+
+    .cooperator__hover-area > .cooperator-hover-lg {
+        display: block;
+        position: absolute;
+        right: 107px;
+        top: 167px;
+    }
+}
+
+@media screen and (min-width: 992px) {
+    .hover-slide-area.cooperator-decor {
+        width: 56px;
+    }
+    
+    .hover-slide-area.cooperator-decor > .hover-slide1 {
+        height: 28px;
+    }
+    
+    .hover-slide-area.cooperator-decor > .hover-slide2 {
+        height: 104px;
+    }
+}
+
+.cooperator__hover-area:hover .hover-slide1::before {
+    height: 22px;
+}
+
+@media print, screen and (min-width: 992px) {
+    .cooperator__hover-area:hover .hover-slide1::before {
+        height: 46px;
+    }
+}
+
+.cooperator__hover-area:hover .hover-slide2::after {
+    background-color: var(--c-white);
+}
+
+.cooperator__introduction-card {
+    width: 60vw;
+    position: relative;
+    margin: auto;
+}
+
+.cooperator__introduction-card__img-wrap {
+    width: 60vw;
+    overflow: hidden;
+    border-radius: 0 10px;
+}
+
+.cooperator__introduction-card__img-wrap img {
+    width: 100%;
+    transition: .4s;
+}
+
+.cooperator__introduction-card:hover .cooperator__introduction-card__img-wrap img {
+    transform: scale(1.1);
+}
+
+.cooperator__introduction-card__namecard {
+    width: 100%;
+    height: 100px;
+    letter-spacing: 0.125rem;
+    position: relative;
+    line-height: 1.75;
+}
+
+/* .cooperator__introduction-card__namecard p:first-child {
+
+} */
+
+.cooperator__introduction-card__namecard p:last-child {
+    display: none;
+    color: var(--c-black);
+    letter-spacing: .2rem;
+    font-size: 1.5rem;
+}
+
+.cooperator__introduction-card__namecard h3 {
+    color: var(--c-black);
+}
+
+.cooperator__introduction-card__namecard h3::before {
+    content: '';
+    width: 20px;
+    height: 1px;
+    background-color: var(--main-light-color);
+    position: absolute;
+    right: 77px;
+    bottom: 10px;
+}
+
+.cooperator__introduction-card__namecard h3::after {
+    content: 'learn more';
+    font-weight: 500;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+
+@media print, screen and (min-width: 992px) {
+    .cooperator__introduction-card {
+        width: 50vw;
+        min-width: 600px;
+        max-width: 720px;
+        height: 360px;
+        position: absolute;
+        top: 104px;
+        left: calc(35vw - 303px);
+        border: 10px solid var(--main-rouge-color);
+    }
+
+    .cooperator__introduction-card a {
+        height: 100%;
+        flex-direction: row;
+        background-color: var(--c-white);
+        justify-content: space-evenly;
+    }
+
+    .cooperator__introduction-card__img-wrap {
+            width: 180px;
+            height: 240px;
+            margin-top: auto;
+            margin-bottom: auto;
+            flex-grow: 0;
+    }
+
+    .cooperator__introduction-card__img-wrap img {
+        width: auto;
+        height: 100%;
+    }
+
+    .cooperator__introduction-card__namecard {
+        width: 360px;
+        height: 240px;
+    }
+
+    .cooperator__introduction-card__namecard p:first-child {
+        font-size: 1.3rem;
+        line-height: 1.9;
+        margin-bottom: 18px;
+    }
+
+    .cooperator__introduction-card__namecard h3 {
+        font-size: 1.5rem;
+        margin-bottom: 18px;
+    }
+
+    .cooperator__introduction-card__namecard p:last-child {
+        display: block;
+    }
+
+    .cooperator__introduction-card__namecard h3::before {
+        right: 92px;
+        bottom: 13px;
+    }
+}
+
+/* .cooperator__group {
+    position: relative;
+    top: 400px;
+} */
+
+.cooperator__group-btn {
+    width: 80%;
+    height: 65px;
+    background-color: var(--main-light-color);
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    margin-top: 40px;
+    transition: .2s;
+}
+
+.cooperator__group-btn:hover {
+    background-color: var(--main-rouge-color);
+}
+
+.cooperator__group-btn p {
+    color: var(--c-white);
+    font-size: 13px;
+    letter-spacing: .125rem;
+}
+
+.cooperator__group-btn p::after {
+    content: '';
+    width: 40px;
+    height: 1px;
+    background-color: var(--c-white);
+    position: absolute;
+    right: 10px;
+    top: 50%;
+}
+
+@media print, screen and (min-width: 992px) {
+    .cooperator__group-btn {
+        width: 480px;
+        margin-top: -145px;
+    }
+}
+
+
+
+/* kyoto-street */
+
+.kyoto-street {
+    width: 100%;
+}
+
+/* 這個 class name 可以選到兩張圖 */
+/* .kyoto-street .kyoto-street__img, */
+.kyoto-street .kyoto-street__img--sp {
+    width: 100%;
+    position: relative;
+    transition: .4s;
+    z-index: -1;
+}
+
+
+
+/* top-report */
+
+.top-report {
+    width: 100%;
+}
+
+@media screen and (min-width: 992px) {
+    .top-report {
+        height: 580px;
+    }
+}
+
+.top-report .container-fluid {
+    position: relative;
+}
+
+.top-report .top-report__head-wrap {
+    width: 100%;
+    height: 205px;
+    position: relative;
+}
+
+@media screen and (min-width: 992px) {
+    .top-report .top-report__head-wrap {
+        width: 120px;
+        height: 420px;
+        position: absolute;
+        left: calc(var(--vw) * 35 - 290px);
+        top: 0;
+        overflow: hidden;
+    }
+}
+
+.top-report .top-report__head-wrap .heading-jp,
+.top-report .top-report__head-wrap .heading-en,
+.top-report .top-report__head-wrap > p {
+    display: block;
+    writing-mode: vertical-lr;
+    font-feature-settings: 'pkna';
+}
+
+.top-report .top-report__head-wrap > p {
+    display: block;
+    width: 40px;
+    position: absolute;
+    top: 0;
+    left: calc(50% + 65px);
+    letter-spacing: .175rem;
+}
+
+.top-report .top-report__head-wrap > p > span {
+    display: block;
+    position: relative;
+}
+
+.top-report .top-report__head-wrap > p > span:first-child {
+    left: 25px;
+}
+
+.top-report .top-report__head-wrap > p > span:last-child {
+    left: -5px;
+}
+
+.top-report .top-report__head-wrap .heading-jp {
+    font-size: 1.8rem;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    z-index: 2;
+    letter-spacing: .325rem;
+}
+
+.top-report .top-report__head-wrap .heading-jp::after {
+    content: '';
+    width: 80px;
+    height: 1px;
+    background-color: var(--c-black);
+    /* transform-origin: 0 0; */
+    transform: rotate(-36deg);
+    position: absolute;
+    left: 12px;
+    right: 0;
+    margin: auto;
+    top: 165px;
+}
+
+.top-report .top-report__head-wrap .heading-en {
+    width: 22px;
+    position: absolute;
+    top: -5px;
+    left: 30px;
+    right: 0;
+    margin: auto;
+    z-index: 1;
+}
+
+.top-report .top-report__head-wrap .heading-en img {
+    width: 100%;
+}
+
+@media screen and (min-width: 992px) {
+    .top-report .top-report__head-wrap .heading-jp {
+        font-size: 2.4rem;
+        letter-spacing: .475rem;
+        margin-left: 16px;
+    }
+    
+    .top-report .top-report__head-wrap .heading-jp::after {
+        width: 160px;
+        position: absolute;
+        left: 70px;
+        top: 218px;
+    }
+
+    .top-report .top-report__head-wrap .heading-en {
+        width: 28px;
+        top: 0px;
+        margin-left: 0;
+    }
+
+    .top-report .top-report__head-wrap > p {
+        left: 60%;
+        font-size: 15px;
+    }
+
+    .top-report .top-report__head-wrap > p > span:first-child {
+        left: 28px;
+    }
+    
+    .top-report .top-report__head-wrap > p > span:last-child {
+        left: -15px;
+    }
+}
+
+.hover-slide-area.top-report-decor {
+    top: 72px;
+}
+
+.top-report__hover-area .hover-slide1::after {
+    background-color: var(--c-black);
+}
+
+@media screen and (min-width: 992px) {
+    .hover-slide-area.top-report-decor {
+        right: 0px;
+        top: 288px;
+        width: 56px;
+        z-index: 1;
+    }
+
+    .hover-slide-area.top-report-decor > .hover-slide1 {
+        height: 28px;
+    }
+
+    .hover-slide-area.top-report-decor > .hover-slide2 {
+        height: 104px;
+    }
+}
+
+.top-report__hover-area:hover .hover-slide1::before {
+    height: 22px;
+}
+
+@media print, screen and (min-width: 992px) {
+    .top-report__hover-area:hover .hover-slide1::before {
+        height: 46px;
+    }
+}
+
+.top-report__hover-area:hover .hover-slide1::after,
+.top-report__hover-area:hover .hover-slide2::after {
+    background-color: var(--c-white);
+}
+
+
+
+/* carousel */
+/* 這裡是用 float 做的 */
+/* 這是鬼吧 */
+
+.top-report .container-fluid + .container-fluid {
+    position: relative;
+}
+
+.carousel-wall {
+    overflow: hidden;
+    position: relative;
+}
+
+@media print, screen and (min-width: 992px) {
+    .carousel-wall {
+        height: 300px;
+        margin-bottom: 90px;
+    }
+}
+
+.carousel-wall__carousel-area {
+    margin-left: calc(var(--vw) * (-67));
+    margin-bottom: 40px;
+    transition: .4s;
+}
+
+@media print, screen and (min-width: 992px) {
+    .carousel-wall__carousel-area {
+        margin-bottom: 90px;
+    }
+}
+
+/* 這裡置中會用 JavaScript 去抓裡面的寬度 */
+/* 父層太寬 我不能用% */
+/* 所以我用一個偷吃步處理 */
+/* 想把 JavaScript 看熟一點再做 */
+/* 或是這樣解決 */
+/* Ref: https://tso1158687.github.io/blog/2019/03/10/detect-mobile-device/ */
+/* 把可恥偷吃步改掉了 */
+.carousel-wall__carousel-card {
+    width: calc(var(--vw) * 62);
+    height: calc(var(--vw) * 62);
+    background-color: var(--c-black);
+    overflow: hidden;
+    flex-shrink: 0;
+    margin-left: calc(var(--vw) * 8);
+    margin-right: calc(var(--vw) * 8);
+    position: relative;
+}
+
+.carousel-wall__carousel-card p {
+    display: block;
+    width: fit-content;
+    height: max-content;
+    color: var(--c-white);
+    line-height: 1.75;
+    letter-spacing: .175rem;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+
+/* 偷吃步就是從 chrome 最小寬度假設用瀏覽器看 */
+/* 平板之類的還是會壞的 */
+/* 我對想偷吃步的自己感到可恥 */
+/* @media print, screen and (min-width: 500px) {
+    .carousel-wall {
+        overflow: hidden;
+        margin-left: calc(-67vw - 9px);
+    }
+} */
+
+.carousel-wall__carousel-card img {
+    height: 100%;
+    opacity: 0.66;
+    transform: translateX(-25%);
+}
+
+@media print, screen and (min-width: 992px) {
+    .carousel-wall__carousel-area {
+        margin-left: calc(var(--vw) * 35 - 108px);
+    }
+
+    .carousel-wall__carousel-card {
+        width: 300px;
+        height: 300px;
+        background-color: transparent;
+        margin-left: 40px;
+        margin-right: 40px;
+    }
+
+    .carousel-wall__carousel-card img {
+        opacity: 1;
+    }
+
+    .carousel-wall__carousel-card p {
+        display: none;
+    }
+
+    .carousel-wall__carousel-card:hover {
+        background-color: var(--c-black);
+    }
+
+    .carousel-wall__carousel-card:hover img {
+        opacity: .66;
+    }
+
+    .carousel-wall__carousel-card:hover p {
+        display: block;
+        font-size: 16px;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+}
+
+/* 這個 carousel 按鈕在原網址的設計也不太好 */
+/* 可以說這是一個設計上有很多東西難以用技術處理的網頁 */
+/* 不過也很有可能是我能力不足 */
+/* 總之用通靈的方式想辦法讓按鈕可以正常在裡面 */
+.carousel-wall__previous-btn,
+.carousel-wall__next-btn {
+    width: 30px;
+    height: 84px;
+    font-size: 0;
+    position: absolute;
+    top: 50%;
+    z-index: 10;
+    transform: translateY(-50%);
+}
+
+.carousel-wall__previous-btn:hover,
+.carousel-wall__next-btn:hover {
+    background-color: var(--main-color);
+    cursor: pointer;
+}
+
+.carousel-wall__previous-btn {
+    left: calc(var(--vw) * 9);
+}
+
+.carousel-wall__next-btn {
+    right: calc(var(--vw) * 9);
+}
+
+@media print, screen and (min-width: 992px) {
+    .carousel-wall__previous-btn {
+        left: calc(var(--vw) * 35 - 108px);
+    }
+    
+    .carousel-wall__next-btn {
+        left: calc(var(--vw) * 35 + 242px);
+    }
+}
+
+/* 我想用多個斷點處理 我知道這處理不正確 */
+/* 但是原網址的設計我不能接受 */
+/* 其實可以用 JS 抓取 innerWidth 除完後 parseInt */
+/* 來決定右邊按鈕的座標 只是現階段稍嫌繁瑣 */
+/* 對 resize 去做監聽就可以做到 */
+/* 下面的座標設定應該很容易看出每次 + 380px 的關係 */
+@media print, screen and (min-width: 1170px) {
+    .carousel-wall__next-btn {
+        left: calc(var(--vw) * 35 + 622px);
+    }
+}
+
+@media print, screen and (min-width: 1755px) {
+    .carousel-wall__next-btn {
+        left: calc(var(--vw) * 35 + 1002px);
+    }
+}
+
+.carousel-wall__previous-btn::before,
+.carousel-wall__previous-btn::after,
+.carousel-wall__next-btn::before,
+.carousel-wall__next-btn::after {
+    content: '';
+    width: 25px;
+    height: 1px;
+    background-color: var(--c-black);
+    position: absolute;
+}
+
+.carousel-wall__previous-btn::before,
+.carousel-wall__previous-btn::after {
+    transform-origin: 0;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    left: 5px;
+}
+
+.carousel-wall__previous-btn::before {
+    transform: rotate(-45deg);
+}
+
+.carousel-wall__previous-btn::after {
+    transform: rotate(45deg);
+}
+
+.carousel-wall__next-btn::before, 
+.carousel-wall__next-btn::after {
+    transform-origin: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    right: 5px;
+}
+
+.carousel-wall__next-btn::before {
+    transform: rotate(45deg);
+    
+} 
+
+.carousel-wall__next-btn::after {
+    transform: rotate(-45deg);
+}
+
+.carousel-wall__previous-btn:hover::before,
+.carousel-wall__previous-btn:hover::after,
+.carousel-wall__next-btn:hover::before,
+.carousel-wall__next-btn:hover::after {
+    background-color: var(--c-white);
+}
+
+.top-report__group-btn {
+    width: 80%;
+    height: 65px;
+    background-color: var(--main-light-color);
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 200px;
+    position: relative;
+    transition: .2s;
+}
+
+.top-report__group-btn:hover {
+    background-color: var(--main-rouge-color);
+}
+
+.top-report__group-btn p {
+    color: var(--c-white);
+    font-size: 13px;
+    letter-spacing: .125rem;
+}
+
+.top-report__group-btn p::after {
+    content: '';
+    width: 40px;
+    height: 1px;
+    background-color: var(--c-white);
+    position: absolute;
+    right: 10px;
+    top: 50%;
+}
+
+@media print, screen and (min-width: 992px) {
+    .top-report__group-btn {
+        width: 35vw;
+        max-width: 480px;
+        margin-bottom: 0;
+    }
+}
+
+
+
+/* information */
+
+.information {
+    position: relative;
+    z-index: 2;
+}
+
+.information .container-fluid {
+    letter-spacing: 0.15rem;
+    line-height: 1.75;
+}
+
+/* 做到這裡才想到可以這樣解決 */
+/* * a {
+    color: inherit;
+} */
+
+.information a {
+    color: inherit;
+}
+
+.information .information-wrap {
+    background-color: var(--sub-color);
+}
+
+/* 這個黃色區塊我覺得原網址的太偏左 */
+/* 所以定位上是本來就打算不一樣 */
+@media print, screen and (min-width: 992px) {
+    .information .information-wrap {
+        width: calc(var(--vw) * 60 + 275px);
+    }
+}
+
+.information .information-warp__news {
+    position: relative;
+    margin-left: 6.7vw;
+    margin-right: 6.7vw;
+}
+
+.information-warp__news .information-warp__news-heading {
+    text-align: center;
+}
+
+.information-warp__news .information-warp__news-heading span {
+    display: block;
+}
+
+.information-warp__news .information-warp__news-heading .information-warp__news-heading-en {
+    font-size: 13px;
+    letter-spacing: .075rem;
+    line-height: 1;
+}
+
+@media print, screen and (min-width: 992px) {
+    .information-warp__news .information-warp__news-heading {
+        text-align: left;
+        margin-bottom: 24px;
+    }
+    .information-warp__news .information-warp__news-heading span {
+        display: inline-block;
+    }
+
+    .information-warp__news .information-warp__news-heading .information-warp__news-heading-jp {
+        margin-right: 20px;
+    }
+}
+
+.information .information-warp__news-area a {
+    text-decoration: underline;
+}
+
+.information .information-warp__news-area a:hover {
+    text-decoration: none;
+}
+
+.information-warp__news .information-warp__news-info {
+    text-align: right;
+    position: relative;
+}
+
+.information-warp__news-info:hover {
+    color: var(--main-color);
+}
+
+.information-warp__news .information-warp__news-info::before {
+    content: '';
+    width: 20px;
+    height: 1px;
+    background-color: var(--main-light-color);
+    position: absolute;
+    top: 9px;
+    right: 85px;
+}
+
+@media print, screen and (min-width: 992px) {
+    .information-warp__news {
+        padding-left: calc(var(--vw) * 35 - 340px);
+    }
+
+    .information-warp__news .fz-sm {
+        font-size: 16px;
+    }
+    
+    .information-warp__news-area {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    
+    /* 這邊利用 flex-basis 強迫換行 */
+    .information .information-warp__news-area > dt {
+        flex-basis: 16%;
+    }
+    
+    /* 這邊利用 flex-basis 強迫換行 */
+    .information .information-warp__news-area > dd {
+        flex-grow: 1;
+        flex-basis: 84%;
+        margin-bottom: 22px;
+    }
+
+    .information-warp__news .information-warp__news-info::before {
+        width: 35px;
+        top: 12px;
+        right: 120px;
+    }
+}
+
+
+
+/* footer */
+
+footer {
+    width: 100%;
+    background-color: var(--main-color);
+    color: var(--c-white);
+    position: relative;
+    z-index: 1;
+}
+
+@media screen and (min-width: 992px) {
+    footer {
+        /* 此時所有東西都是固定大小 寫死沒關係 */
+        height: 620px;
+        margin-top: -60px;
+    }
+}
+
+footer a {
+    color: inherit;
+}
+
+.footer__logo {
+    width: 43%;
+    max-width: 340px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@media screen and (min-width: 992px) {
+    .footer__logo {
+        max-width: 250px;
+        position: absolute;
+        left: calc(var(--vw) * 35 - 280px);
+        top: 130px;
+    }
+}
+
+.footer__sitemap {
+    letter-spacing: .125rem;
+    margin-left: 6.7vw;
+    margin-right: 6.7vw;
+}
+
+.footer__sitemap ul {
+    padding-left: 40px;
+}
+
+.footer__sitemap ul a:hover {
+    text-decoration: underline;
+}
+
+.footer__sitemap ul > li > ul {
+    margin-left: -40px;
+}
+
+
+.footer__sitemap ul > li > ul > li {
+    display: inline-block;
+}
+
+.footer__sitemap ul > li > ul > li a {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.footer__sitemap ul > li > ul > li a:hover {
+    text-decoration: none;
+}
+
+.footer__sitemap ul > li > ul > li + li {
+    margin-left: calc(var(--vw) * 1.5);
+}
+
+@media screen and (min-width: 992px) {
+    .footer__sitemap {
+        font-size: 16px;
+        padding-top: 95px;
+        padding-left: calc(var(--vw) * 35 - 70px);
+    }
+
+    .footer__sitemap ul > li {
+        margin-bottom: 39px;
+    }
+
+    .footer__sitemap ul > li > ul > li {
+        margin-bottom: 0px;
+    }
+
+    /* 這地方間距為何要變大我不懂 */
+    /* 要做好了心情不錯就跟隨吧 */
+    .footer__sitemap ul > li:last-child > ul > li {
+        padding-top: 20px;
+    }
+
+    .footer__sitemap ul > li > ul > li + li {
+        margin-left: 20px;
+    }
+}
+
+.footer__sitemap .sitemap-label {
+    position: relative;
+}
+
+.footer__sitemap .sitemap-label::before {
+    content: '';
+    width: 25px;
+    height: 1px;
+    background-color: var(--c-white);
+    position: absolute;
+    top: 5px;
+    left: -35px;
+}
+
+@media screen and (min-width: 992px) {
+    .footer__sitemap .sitemap-label::before {
+        width: 45px;
+        top: 7px;
+        left: -60px;
+    }
+}
+
+.footer__copyright {
+    font-size: 13px;
+    letter-spacing: 0;
+    text-align: center;
+}
+
+/* 要解決要偵測裝置 先註解 */
+/* .footer__copyright span {
+    font-size: 20px;
+    position: relative;
+    top: .25rem;
+} */
+
+@media screen and (min-width: 992px) {
+    .footer__copyright {
+        position: absolute;
+        right: calc(var(--vw) * 39 - 258px);
+        bottom: 105px;
+    }
+}
